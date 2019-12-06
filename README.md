@@ -31,3 +31,15 @@ printArray takes as input the following arguments:
 data_list, annotation_list, base_name, key_file
 
 it aligns the times from all the data files and outputs the values associated with those times in a .csv file for further analysis
+
+
+####recent update: Pandas_import benchmarking
+
+pandas_import will import all files from the smallData folder as dataframes. it then converts the time column to datetime format and makes that the index. it then merges all the independent dataframes by the time index. it then rounds by the time index by the nearest 5 and 15 minutes. it then groups the values of each
+column and either adds or averages (depending on the specification) those values and creates a new dataframe and writes it to a csv. All of this is much faster than the previous version we wrote (1.69 seconds vs 129 seconds to run).
+
+(base) >> gtime -f '%e\t%M' python3 pandas_import.py
+1.69	79424
+
+(base) >> gtime -f '%e\t%M' python3 data_import.py --folder_name smallData --output_file test.csv --sort_key cgm
+129.80	16472
